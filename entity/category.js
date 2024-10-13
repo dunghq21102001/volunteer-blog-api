@@ -3,7 +3,7 @@ const { Schema } = mongoose
 const categorySchema = new Schema({
     name: {type: String, require},
     description: {type: String, require},
-    classes: [{ type: Schema.Types.ObjectId, ref: 'blog' }]
+    blogs: [{ type: Schema.Types.ObjectId, ref: 'blog' }]
 }, {
     timestamps: true,
 })
