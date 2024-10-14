@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
 connectDB()
 const corsOptions = {
-  origin: ['http://localhost:3000', 'http://localhost:5173'],
+  origin: ['http://localhost:3000', 'http://localhost:5173', 'https://volunteer-edu-admin.netlify.app', , 'https://volunteer-edu.netlify.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
