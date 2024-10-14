@@ -2,13 +2,24 @@ const express = require('express')
 const morgan = require("morgan")
 const cors = require("cors");
 const connectDB = require('./database')
+const bodyParser = require('body-parser');
 
 const app = express()
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
+
+
 
 connectDB()
+const corsOptions = {
+  origin: ['http://localhost:3000', 'http://localhost:5173'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+};
 
 app.use(morgan("combined"))
-app.use(cors())
+app.use(cors(corsOptions));
 
 const port = 3001
 const PREFIX_API_URL = '/api/v1'
