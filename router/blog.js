@@ -93,6 +93,18 @@ blogRouter.get('/', async (req, res) => {
     }
 });
 
+blogRouter.get('/top', async (req, res) => {
+    try {
+        const topBlogs = await blogModel.find({})
+            .sort({ createdAt: -1 })
+            .limit(3);
+
+        res.send(topBlogs);
+    } catch (error) {
+        res.status(500).send({ error: 'An error occurred while fetching top blogs.' });
+    }
+});
+
 blogRouter.get('/:id', async (req, res) => {
     try {
         const blogId = req.params.id;
