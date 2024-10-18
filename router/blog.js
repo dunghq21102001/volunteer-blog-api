@@ -120,6 +120,24 @@ blogRouter.get('/:id', async (req, res) => {
     }
 });
 
+blogRouter.get('/category/:categoryName', async (req, res) => {
+    try {
+        const { categoryName } = req.params;
+
+        const category = await categoryModel.findOne({ name: categoryName });
+
+        if (!category) {
+            return res.status(404).send({ error: 'Category not found.' });
+        }
+
+        const blogsByCategory = await blogModel.find({ category: category._id });
+
+        res.send(blogsByCategory);
+    } catch (error) {
+        res.status(500).send({ error: 'An error occurred while fetching blogs by category.' });
+    }
+});
+
 blogRouter.get('/author/:userId', async (req, res) => {
     try {
         const userId = mongoose.Types.ObjectId(req.params.userId);
