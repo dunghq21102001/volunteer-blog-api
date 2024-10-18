@@ -120,23 +120,28 @@ blogRouter.get('/:id', async (req, res) => {
     }
 });
 
-blogRouter.get('/category/:categoryName', async (req, res) => {
+blogRouter.get('/category/:categoryId', async (req, res) => {
     try {
-        const { categoryName } = req.params;
+        const { categoryId } = req.params;
+        console.log('req: ', req.params);
 
-        const category = await categoryModel.findOne({ name: categoryName });
-
-        if (!category) {
-            return res.status(404).send({ error: 'Category not found.' });
+        if (!mongoose.Types.ObjectId.isValid(categoryId)) {
+            return res.status(400).send({ error: 'Invalid category ID.' });
         }
 
-        const blogsByCategory = await blogModel.find({ category: category._id });
+        const blogsByCategory = await blogModel.find({ category: categoryId });
+
+        if (blogsByCategory.length === 0) {
+            return res.status(404).send({ error: 'No blogs found for this category.' });
+        }
 
         res.send(blogsByCategory);
     } catch (error) {
+        console.error("Error fetching blogs by category ID:", error);
         res.status(500).send({ error: 'An error occurred while fetching blogs by category.' });
     }
 });
+
 
 blogRouter.get('/author/:userId', async (req, res) => {
     try {
